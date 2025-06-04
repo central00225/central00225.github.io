@@ -34,8 +34,8 @@ const searchEmployeeInput = document.getElementById('search-employee');
 const filterDateInput = document.getElementById('filter-date');
 let employeSearch = '';
 let employeFilterDate = '';
-const API_URL = 'http://localhost:4000/api'; // À adapter si déployé
 
+// -- localStorage backend simulation --
 function getUsers() {
   return JSON.parse(localStorage.getItem('users') || '{}');
 }
@@ -43,22 +43,35 @@ function setUsers(users) {
   localStorage.setItem('users', JSON.stringify(users));
 }
 function hash(str) {
+  // Simple hash pour la démo (ne pas utiliser en prod !)
   let h = 0; for (let i = 0; i < str.length; i++) h = ((h<<5)-h) + str.charCodeAt(i); return h.toString();
 }
-function saveToken(token) {
-  localStorage.setItem('token', token);
+function saveSession(email) {
+  localStorage.setItem('session', email);
 }
-function getToken() {
-  return localStorage.getItem('token');
+function getSession() {
+  return localStorage.getItem('session');
 }
-function clearToken() {
-  localStorage.removeItem('token');
+function clearSession() {
+  localStorage.removeItem('session');
 }
 function getRole(email) {
   if (email === ADMIN_EMAIL) return 'admin';
   let users = getUsers();
   return users[email] && users[email].role === 'admin' ? 'admin' : 'employe';
 }
+// -- Fin localStorage backend simulation --
+
+function showToast(type, message) {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + (type === 'success' ? 'toast-success' : 'toast-error');
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; }, 2200);
+  setTimeout(() => { container.removeChild(toast); }, 2700);
+}
+
 function showNav(role) {
   navDashboardLi.style.display = '';
   navContactLi.style.display = '';
@@ -94,8 +107,7 @@ function showSection(section) {
   profileSection.style.display = section === 'profile' ? '' : 'none';
 }
 function logout() {
-  clearToken();
-  localStorage.removeItem('user');
+  clearSession();
   hideNav();
   showSection('login');
 }
@@ -123,7 +135,7 @@ loginForm.onsubmit = async function(e) {
     });
     const data = await res.json();
     if (!res.ok) return showToast('error', data.error || 'Erreur de connexion');
-    saveToken(data.token);
+    saveSession(email);
     localStorage.setItem('user', JSON.stringify(data.user));
     showNav(data.user.role);
     navUser.textContent = data.user.email;
@@ -151,10 +163,6 @@ registerForm.onsubmit = async function(e) {
     showToast('error', 'Erreur réseau');
   }
 };
-function getSession() {
-  const user = localStorage.getItem('user');
-  return user ? JSON.parse(user).email : null;
-}
 
 // Tableau de bord
 function getLastNDays(n) {
@@ -429,16 +437,6 @@ window.onload = function() {
     renderDashboard();
   }
 };
-
-function showToast(type, message) {
-  const container = document.getElementById('toast-container');
-  const toast = document.createElement('div');
-  toast.className = 'toast ' + (type === 'success' ? 'toast-success' : 'toast-error');
-  toast.textContent = message;
-  container.appendChild(toast);
-  setTimeout(() => { toast.style.opacity = '0'; }, 2200);
-  setTimeout(() => { container.removeChild(toast); }, 2700);
-}
 
 if (exportCsvBtn) exportCsvBtn.onclick = function() {
   const users = getUsers();

@@ -1,10 +1,73 @@
-  <li style="display:none;" id="nav-admin-li"><a href="#" id="nav-admin">Administrateur</a></li>
-  <section id="admin-section" style="display:none;">
-    <h1>Espace Administrateur</h1>
-    <p>Liste des présences de tous les employés :</p>
-    <div id="admin-users-list"></div>
-  </section>
-  <button id="btn-pointer">Je suis arrivé !</button>
-  <button id="btn-pointer-descente" style="margin-top:10px;">Je pars !</button>
-  <h2>Historique de présence</h2>
-  <ul id="presence-history"></ul> 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assistance & Présence</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background"></div>
+  <nav>
+    <div class="logo">Assistance+</div>
+    <ul id="nav-links">
+      <li><a href="#" id="nav-home">Accueil</a></li>
+      <li><a href="#" id="nav-contact">Contact</a></li>
+      <li style="display:none;" id="nav-presence-li"><a href="#" id="nav-presence">Présence</a></li>
+      <li style="display:none;" id="nav-admin-li"><a href="#" id="nav-admin">Administrateur</a></li>
+      <li style="display:none;" id="nav-logout-li"><a href="#" id="nav-logout">Déconnexion</a></li>
+      <li style="display:none;" id="nav-user-li"><span id="nav-user"></span></li>
+    </ul>
+  </nav>
+  <main>
+    <section id="home-section">
+      <h1>Bienvenue sur Assistance+</h1>
+      <p>Votre espace d'assistance et de gestion de présence en ligne.<br>Connectez-vous ou créez un compte pour accéder à toutes les fonctionnalités.</p>
+      <div id="auth-forms">
+        <div id="login-form-div">
+          <h2>Connexion</h2>
+          <form id="login-form">
+            <input type="text" id="login-email" placeholder="Email ou admin" required>
+            <input type="password" id="login-password" placeholder="Mot de passe" required>
+            <button type="submit">Se connecter</button>
+          </form>
+          <p>Pas de compte ? <a href="#" id="show-register">Créer un compte</a></p>
+        </div>
+        <div id="register-form-div" style="display:none;">
+          <h2>Créer un compte</h2>
+          <form id="register-form">
+            <input type="email" id="register-email" placeholder="Email (Gmail accepté)" required>
+            <input type="password" id="register-password" placeholder="Mot de passe" required>
+            <button type="submit">S'inscrire</button>
+          </form>
+          <p>Déjà inscrit ? <a href="#" id="show-login">Se connecter</a></p>
+        </div>
+      </div>
+    </section>
+    <section id="contact-section" style="display:none;">
+      <h1>Contact</h1>
+      <form id="contact-form">
+        <input type="text" id="contact-name" placeholder="Votre nom" required>
+        <input type="email" id="contact-email" placeholder="Votre email" required>
+        <textarea id="contact-message" placeholder="Votre message" required></textarea>
+        <button type="submit">Envoyer</button>
+      </form>
+      <div id="contact-success" style="display:none;color:green;margin-top:10px;">Message envoyé !</div>
+    </section>
+    <section id="presence-section" style="display:none;">
+      <h1>Présence</h1>
+      <p>Bienvenue, <span id="presence-user"></span> !</p>
+      <button id="btn-pointer">Je suis arrivé !</button>
+      <button id="btn-pointer-descente" style="margin-top:10px;">Je pars !</button>
+      <h2>Historique de présence</h2>
+      <ul id="presence-history"></ul>
+    </section>
+    <section id="admin-section" style="display:none;">
+      <h1>Espace Administrateur</h1>
+      <p>Liste des présences de tous les employés :</p>
+      <div id="admin-users-list"></div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html> 

@@ -66,7 +66,67 @@ function renderHistory() {
   });
 }
 
-document.getElementById('tracking-form').addEventListener('submit', function(e) {
+async function fetchCainiao(trackingNumber) {
+  const url = `https://global.cainiao.com/detail.json?mailNoList=${encodeURIComponent(trackingNumber)}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Erreur réseau');
+    const data = await response.json();
+    if (!data || !data.data || !data.data[0]) return {error: 'Aucune information trouvée pour ce numéro.'};
+    return data.data[0];
+  } catch (e) {
+    return {error: 'Erreur lors de la récupération des données.'};
+  }
+}
+
+function renderCainiaoResult(data) {
+  const resultDiv = document.getElementById('result');
+  const mapDiv = document.getElementById('map');
+  const lastUpdateDiv = document.getElementById('last-update');
+  const copyBtn = document.getElementById('copy-btn');
+  if (data.error) {
+    resultDiv.innerHTML = data.error;
+    mapDiv.style.display = 'none';
+    copyBtn.style.display = 'none';
+    lastUpdateDiv.textContent = '';
+    return;
+  }
+  let html = `<b>Numéro :</b> ${data.mailNo}<br>`;
+  if (data.statusDesc) html += `<b>Statut :</b> ${data.statusDesc}<br>`;
+  if (data.sendMailAddr) html += `<b>Expéditeur :</b> ${data.sendMailAddr}<br>`;
+  if (data.recMailAddr) html += `<b>Destinataire :</b> ${data.recMailAddr}<br>`;
+  if (data.latestTrackInfo) html += `<b>Dernière étape :</b> ${data.latestTrackInfo.desc} <br><b>Date :</b> ${data.latestTrackInfo.time}<br>`;
+  if (data.trackInfoList && data.trackInfoList.length > 0) {
+    html += '<b>Historique :</b><ul style="text-align:left;">';
+    data.trackInfoList.slice(-5).reverse().forEach(ev => {
+      html += `<li>${ev.time} : ${ev.desc}</li>`;
+    });
+    html += '</ul>';
+  }
+  resultDiv.innerHTML = html;
+  // Carte fictive si localisation dispo
+  let loc = null;
+  if (data.latestTrackInfo && data.latestTrackInfo.desc) {
+    const desc = data.latestTrackInfo.desc;
+    const match = desc.match(/à ([A-Za-zÀ-ÿ\- ]+)/);
+    if (match) loc = match[1];
+  }
+  if (loc) {
+    mapDiv.innerHTML = `<b>Dernière localisation :</b> ${loc} <br><span style='font-size:2.5em;'>📦</span>`;
+    mapDiv.style.display = 'flex';
+  } else {
+    mapDiv.style.display = 'none';
+  }
+  // Date/heure
+  if (data.latestTrackInfo && data.latestTrackInfo.time) {
+    lastUpdateDiv.textContent = `Dernière mise à jour : ${data.latestTrackInfo.time}`;
+  } else {
+    lastUpdateDiv.textContent = '';
+  }
+  copyBtn.style.display = 'block';
+}
+
+document.getElementById('tracking-form').addEventListener('submit', async function(e) {
   e.preventDefault();
   const trackingNumber = document.getElementById('tracking-number').value.trim();
   const resultDiv = document.getElementById('result');
@@ -77,26 +137,9 @@ document.getElementById('tracking-form').addEventListener('submit', function(e) 
   mapDiv.style.display = 'none';
   copyBtn.style.display = 'none';
   lastUpdateDiv.textContent = '';
-  setTimeout(() => {
-    const res = getColisPosition(trackingNumber);
-    resultDiv.innerHTML = res;
-    if (res.startsWith('Votre colis')) {
-      updateHistory(trackingNumber);
-      // Affichage carte fictive
-      const ville = getVilleFromTracking(trackingNumber);
-      const coords = villesCoords[ville];
-      mapDiv.innerHTML = `<b>${ville}</b><br><span style='font-size:0.95em;color:#555;'>Coordonnées : ${coords[0].toFixed(2)}, ${coords[1].toFixed(2)}</span><br><span style='font-size:2.5em;'>📦</span>`;
-      mapDiv.style.display = 'flex';
-      // Affichage date/heure
-      const now = new Date();
-      lastUpdateDiv.textContent = `Dernière mise à jour : ${now.toLocaleString('fr-FR')}`;
-      // Affichage bouton copier
-      copyBtn.style.display = 'block';
-    } else {
-      mapDiv.style.display = 'none';
-      copyBtn.style.display = 'none';
-    }
-  }, 800);
+  updateHistory(trackingNumber);
+  const data = await fetchCainiao(trackingNumber);
+  renderCainiaoResult(data);
 });
 
 document.getElementById('copy-btn').onclick = function() {

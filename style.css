@@ -1,0 +1,111 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f4f6fa;
+}
+.background {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+  opacity: 0.35;
+}
+nav {
+  position: relative;
+  z-index: 2;
+  background: #2563ebcc;
+  color: #fff;
+  padding: 0.5em 0;
+  box-shadow: 0 2px 8px #0002;
+}
+nav .logo {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1.3em;
+  margin-left: 2em;
+}
+nav ul {
+  display: inline-block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  float: right;
+  margin-right: 2em;
+}
+nav ul li {
+  display: inline-block;
+  margin-left: 1.5em;
+}
+nav ul li a, nav ul li span {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1em;
+  transition: color 0.2s;
+}
+nav ul li a:hover {
+  color: #c2e9fb;
+}
+main {
+  position: relative;
+  z-index: 2;
+  max-width: 420px;
+  margin: 60px auto 0 auto;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px #0001;
+  padding: 36px 28px 32px 28px;
+  min-height: 400px;
+}
+h1, h2 {
+  color: #2563eb;
+  margin-top: 0;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+input, textarea, button {
+  font-size: 1em;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  padding: 10px;
+}
+input:focus, textarea:focus {
+  outline: 2px solid #2563eb44;
+}
+button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button:hover {
+  background: #1d4ed8;
+}
+#auth-forms {
+  margin-top: 24px;
+}
+#presence-history {
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 10px 8px;
+  min-height: 32px;
+  margin-top: 10px;
+}
+#presence-history li {
+  margin-bottom: 6px;
+  color: #222;
+}
+@media (max-width: 600px) {
+  main {
+    margin: 20px 4px 0 4px;
+    padding: 18px 6px 18px 6px;
+  }
+  nav .logo, nav ul {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+  }
+} 

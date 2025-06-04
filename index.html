@@ -1,36 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Suivi de Colis IA</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f4f6fa; margin: 0; padding: 0; }
-    .container { max-width: 400px; margin: 60px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px #0001; padding: 32px; }
-    h1 { text-align: center; color: #2d3748; }
-    form { display: flex; flex-direction: column; gap: 16px; }
-    input[type="text"] { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; }
-    button { background: #2563eb; color: #fff; border: none; padding: 12px; border-radius: 6px; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
-    button:hover { background: #1d4ed8; }
-    .result { margin-top: 24px; padding: 16px; background: #e0e7ef; border-radius: 8px; min-height: 40px; text-align: center; color: #222; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Suivi de Colis International</h1>
-    <p style="text-align:center;color:#444;margin-bottom:18px;">Suivez votre colis en temps réel grâce à l'API officielle Cainiao.<br>Entrez votre numéro de suivi ci-dessous.</p>
-    <form id="tracking-form">
-      <input type="text" id="tracking-number" placeholder="Entrez votre numéro de suivi" required />
-      <button type="submit">Rechercher</button>
-    </form>
-    <div class="result" id="result"></div>
-    <button id="copy-btn" style="display:none;margin-top:10px;">Copier le résultat</button>
-    <div id="map" style="margin-top:24px;display:none;height:200px;width:100%;background:#dbeafe;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#2563eb;"></div>
-    <div id="last-update" style="margin-top:10px;font-size:0.95em;color:#555;text-align:center;"></div>
-    <h3 style="margin-top:32px;">Historique des recherches</h3>
-    <ul id="history" style="background:#f1f5f9;padding:12px 8px;border-radius:8px;min-height:32px;"></ul>
-    <button id="clear-history" style="margin-top:8px;background:#e11d48;">Effacer l'historique</button>
-  </div>
-  <script src="ia.js"></script>
-</body>
-</html> 
+  <li style="display:none;" id="nav-admin-li"><a href="#" id="nav-admin">Administrateur</a></li>
+  <section id="admin-section" style="display:none;">
+    <h1>Espace Administrateur</h1>
+    <p>Liste des présences de tous les employés :</p>
+    <div id="admin-users-list"></div>
+  </section>
+  <button id="btn-pointer">Je suis arrivé !</button>
+  <button id="btn-pointer-descente" style="margin-top:10px;">Je pars !</button>
+  <h2>Historique de présence</h2>
+  <ul id="presence-history"></ul> 

@@ -106,8 +106,21 @@ registerForm.onsubmit = function(e) {
 const loginForm = document.getElementById('login-form');
 loginForm.onsubmit = function(e) {
   e.preventDefault();
-  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  let email = document.getElementById('login-email').value.trim().toLowerCase();
   const password = document.getElementById('login-password').value;
+  // Connexion admin spéciale
+  if (email === 'admin' && password === 'admin') {
+    email = ADMIN_EMAIL;
+    // Crée le compte admin s'il n'existe pas
+    let users = getUsers();
+    if (!users[email]) {
+      users[email] = { password: hash('admin'), presence: [] };
+      setUsers(users);
+    }
+    saveSession(email);
+    showLoggedUI(email);
+    return;
+  }
   let users = getUsers();
   if (!users[email] || users[email].password !== hash(password)) return alert('Identifiants invalides');
   saveSession(email);
@@ -155,7 +168,7 @@ btnPointerDescente.onclick = function() {
   let users = getUsers();
   let user = users[email];
   if (!user.presence || user.presence.length === 0 || user.presence[user.presence.length-1].descente) {
-    alert('Vous devez d’abord pointer votre arrivée.');
+    alert("Vous devez d'abord pointer votre arrivée.");
     return;
   }
   const now = new Date().toLocaleString('fr-FR');

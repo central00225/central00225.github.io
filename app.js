@@ -184,6 +184,16 @@ contactForm.onsubmit = function(e) {
   contactSuccess.style.display = 'block';
   setTimeout(() => { contactSuccess.style.display = 'none'; contactForm.reset(); }, 2000);
 };
+// Gestion du formulaire de contact admin
+const adminContactForm = document.getElementById('admin-contact-form');
+const adminContactSuccess = document.getElementById('admin-contact-success');
+if (adminContactForm) {
+  adminContactForm.onsubmit = function(e) {
+    e.preventDefault();
+    adminContactSuccess.style.display = 'block';
+    setTimeout(() => { adminContactSuccess.style.display = 'none'; adminContactForm.reset(); }, 2000);
+  };
+}
 // Init
 window.onload = function() {
   const email = getSession();

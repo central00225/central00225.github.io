@@ -4,6 +4,45 @@ body, html {
   font-family: 'Segoe UI', Arial, sans-serif;
   background: #f4f6fa;
 }
+body.dark, html.dark {
+  background: #181c24;
+}
+body.dark main {
+  background: #23283a;
+  color: #f1f5f9;
+}
+body.dark nav {
+  background: #23283acc;
+}
+body.dark h1, body.dark h2 {
+  color: #fbc2eb;
+}
+body.dark input, body.dark textarea, body.dark button {
+  background: #23283a;
+  color: #f1f5f9;
+  border: 1px solid #444b5a;
+}
+body.dark input:focus, body.dark textarea:focus {
+  outline: 2px solid #fbc2eb44;
+}
+body.dark #presence-history {
+  background: #23283a;
+}
+body.dark #presence-history li {
+  color: #f1f5f9;
+}
+body.dark .background::before {
+  opacity: 0.3;
+}
+body.dark .bubble {
+  opacity: 0.12;
+}
+body.dark nav ul li a, body.dark nav ul li span {
+  color: #fbc2eb;
+}
+body.dark nav ul li a:hover {
+  color: #fff;
+}
 .background {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -140,4 +179,52 @@ button:hover {
     margin-left: 0.5em;
     margin-right: 0.5em;
   }
+}
+.toast {
+  min-width: 220px;
+  margin-bottom: 12px;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 1.1em;
+  color: #fff;
+  box-shadow: 0 2px 12px #0002;
+  opacity: 1;
+  background: #2563eb;
+  transition: opacity 0.5s, transform 0.5s;
+  animation: toastIn 0.5s;
+}
+.toast-success { background: #22c55e; }
+.toast-error { background: #e11d48; }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+section {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+section[style*="display: none"] {
+  opacity: 0;
+  pointer-events: none;
+}
+.card {
+  background: #f1f5f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #0001;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  animation: cardIn 0.6s;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+button, .btn {
+  transition: background 0.2s, transform 0.15s;
+}
+button:active, .btn:active {
+  transform: scale(0.97);
+}
+button:hover, .btn:hover {
+  filter: brightness(1.08);
 } 

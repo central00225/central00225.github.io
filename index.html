@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="toast-container" style="position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:9999;"></div>
   <div class="background">
     <div class="bubble bubble1"></div>
     <div class="bubble bubble2"></div>
@@ -23,6 +24,8 @@
       <li style="display:none;" id="nav-contact-li"><a href="#" id="nav-contact">Contact</a></li>
       <li style="display:none;" id="nav-logout-li"><a href="#" id="nav-logout">Déconnexion</a></li>
       <li style="display:none;" id="nav-user-li"><span id="nav-user"></span></li>
+      <li style="display:none;" id="nav-profile-li"><a href="#" id="nav-profile">Profil</a></li>
+      <li style="display:none;" id="nav-darkmode-li"><button id="toggle-darkmode" title="Mode sombre" style="background:none;border:none;color:#fff;font-size:1.2em;cursor:pointer;">🌙</button></li>
     </ul>
   </nav>
   <main>
@@ -47,6 +50,8 @@
     <section id="dashboard-section" style="display:none;">
       <h1 id="dashboard-title"></h1>
       <div id="dashboard-content"></div>
+      <div id="dashboard-stats" style="margin-top:24px;"></div>
+      <canvas id="dashboard-graph" width="360" height="120" style="display:block;margin:24px auto 0 auto;"></canvas>
     </section>
     <section id="presence-section" style="display:none;">
       <h1>Pointage</h1>
@@ -58,6 +63,11 @@
     </section>
     <section id="employes-section" style="display:none;">
       <h1>Gestion des employés</h1>
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
+        <input id="search-employee" type="text" placeholder="Rechercher employé (nom ou email)" style="flex:1;max-width:220px;">
+        <input id="filter-date" type="date" style="flex:1;max-width:160px;">
+        <button id="export-csv" style="margin-bottom:0;">Exporter CSV</button>
+      </div>
       <div id="employes-list"></div>
       <h2>Créer un employé</h2>
       <form id="admin-create-employee-form">
@@ -76,6 +86,19 @@
         <button type="submit">Envoyer</button>
       </form>
       <div id="contact-success" style="display:none;color:green;margin-top:10px;">Message envoyé !</div>
+    </section>
+    <section id="profile-section" style="display:none;">
+      <h1>Mon profil</h1>
+      <div id="profile-avatar" style="font-size:3em;margin-bottom:10px;"></div>
+      <form id="profile-form">
+        <label>Nom :</label>
+        <input type="text" id="profile-name" placeholder="Votre nom" required>
+        <label>Mot de passe (laisser vide pour ne pas changer) :</label>
+        <input type="password" id="profile-password" placeholder="Nouveau mot de passe">
+        <button type="submit">Mettre à jour</button>
+      </form>
+      <button id="delete-account" style="margin-top:18px;background:#e11d48;">Supprimer mon compte</button>
+      <div id="profile-success" style="display:none;color:green;margin-top:10px;">Profil mis à jour !</div>
     </section>
   </main>
   <script src="app.js"></script>
